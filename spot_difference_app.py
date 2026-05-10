@@ -189,8 +189,6 @@ class DifferenceRegion:
             y2 + h2 + padding < y1
         )
 
-
-
 # Image Processing Class
 
 class ImageProcessor:
@@ -486,7 +484,7 @@ class SpotDifferenceApp:
             def pop(size=14):
                 if size > 22:
                  self.modified_label.after(100, label.destroy)
-                return
+                 return
                 label.config(fg=("Segoe UI Symbol", size, "bold")  )
                 self.root.after(30, lambda: pop(size + 2))
             pop()
