@@ -86,7 +86,7 @@ class ShapeEffect(DifferenceEffect):
 
         cv2.circle(image, center, radius, colour, 2)
 
-#  NEW EFFECT 1 (Border Highlight)
+#NEW EFFECT 1 (Border Highlight)
 class BorderEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
@@ -94,7 +94,7 @@ class BorderEffect(DifferenceEffect):
 
 
 
-# NEW EFFECT 2 (Invert Color)
+#NEW EFFECT 2 (Invert Color)
 class InvertEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
@@ -102,7 +102,7 @@ class InvertEffect(DifferenceEffect):
         image[y:y + h, x:x + w] = 255 - roi
 
 
-# NEW EFFECT 3 (Grayscale Patch)
+#NEW EFFECT 3 (Grayscale Patch)
 class GrayEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
@@ -115,7 +115,7 @@ class GrayEffect(DifferenceEffect):
         image[y:y + h, x:x + w] = gray
 
 
-
+#NEW EFFECT 4 (Pixelation)
 class PixelateEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
@@ -126,6 +126,7 @@ class PixelateEffect(DifferenceEffect):
 
         image[y:y+h, x:x+w] = pixelated
 
+#NEW EFFECT 5 (Noisy Patch)
 class NoiseEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
@@ -136,7 +137,7 @@ class NoiseEffect(DifferenceEffect):
 
         image[y:y+h, x:x+w] = noisy
 
-
+#NEW EFFECT 6 (Dark Patch effect)
 class DarkPatchEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
@@ -145,6 +146,7 @@ class DarkPatchEffect(DifferenceEffect):
         dark = (roi * 0.7).astype(np.uint8)
         image[y:y+h, x:x+w] = dark
 
+#NEW EFFECT 7 (Canny Edge effect)      
 class CannyEdgeEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
@@ -159,8 +161,7 @@ class CannyEdgeEffect(DifferenceEffect):
 
 
 
-# Difference Region Class
-
+#Data Class for Difference Regions
 class DifferenceRegion:
     """Stores the position and status of a hidden difference."""
 
@@ -191,7 +192,7 @@ class DifferenceRegion:
         )
 
     def overlaps(self, other_region, padding=25):
-        """Prevents difference regions from overlapping."""
+        #Prevents difference regions from overlapping.
         x1, y1, w1, h1 = self.get_region()
         x2, y2, w2, h2 = other_region.get_region()
 
@@ -204,14 +205,14 @@ class DifferenceRegion:
     def __str__(self):
         return f"DifferenceRegion(found={self.__found})"
 
-# Image Processing Class
-
+#Image Processing Class
 class ImageProcessor:
-    """Handles image loading, cloning, difference generation, and marking."""
+    #Handles image loading, cloning, difference generation, and marking.
 
     DIFFERENCE_COUNT = 5
 
     def __init__(self):
+        #Collection of polymorphic image effects applied randomly to difference regions.
         self.effects = [
             ColourShiftEffect(),
             BlurEffect(),
@@ -241,10 +242,12 @@ class ImageProcessor:
 
         for region_obj in regions:
             effect = random.choice(self.effects)
+            #randomly selects an effect for each hidden region.
             effect.apply(modified_image, region_obj.get_region())
 
         return modified_image, regions
-
+    
+#Generates random non-overlapping regions for differences.
     def __generate_non_overlapping_regions(self, image):
         height, width = image.shape[:2]
         regions = []
@@ -300,7 +303,7 @@ class ImageProcessor:
 #Game Logic Class
 
 class DifferenceGame:
-    """Controls game state, scoring, mistakes, and reveal logic."""
+    #Controls game state, scoring, mistakes, and reveal logic.
 
     MAX_MISTAKES = 3
 
@@ -379,7 +382,7 @@ class SpotDifferenceApp:
     def __build_gui(self):
 
 
-       ##Header
+       #Header with title and custom font, background color, and padding for a polished look.
         header = tk.Frame(self.root, bg="#12121c", height=30)
         header.pack(fill="x")
         tk.Label(header, text="🎮 SPOT THE DIFFERENCE",
@@ -403,7 +406,7 @@ class SpotDifferenceApp:
         reveal_btn.grid(row=0, column=1, padx=10)
 
 
-        #  HOVER
+        #Hover effects for buttons
         def add_hover(w, normal, hover):
             w.bind("<Enter>", lambda e: w.config(bg=hover, fg="black"))
             w.bind("<Leave>", lambda e: w.config(bg=normal, fg="white"))
@@ -416,7 +419,7 @@ class SpotDifferenceApp:
                                   bg="#1e1e2f", fg="#dcdde1")
         self.info_label.pack(pady=5)
 
-        ## HUD
+        #HUD Frame for status 
         hud = tk.Frame(self.root, bg="#1e1e2f")
         hud.pack(pady=5)
         self.status_label = tk.Label(hud, text="Remaining: 5 | Mistakes: 0/3 | Found: 0",
@@ -463,7 +466,7 @@ class SpotDifferenceApp:
 
         self.modified_label.bind("<Button-1>", self.handle_click)
 
-        #  WELCOME
+        #WELCOME PLACEHOLDER
         self.placeholder_label = tk.Label(
         self.root,
     text="🎮 WELCOME PLAYER\n\n"
@@ -486,7 +489,7 @@ class SpotDifferenceApp:
             bg="#1e1e2f", fg="#95a5a6")
         footer.pack(side="bottom", fill="x", pady=6)
     
-        #NEW FUNCTION FOR FEEDBACK ANIMATION
+        #FUNCTION FOR FEEDBACK ANIMATION
     def show_feedback(self, symbol, color, x, y, is_correct=True):
         label = tk.Label(self.modified_label, 
                          text=symbol, 
@@ -516,7 +519,7 @@ class SpotDifferenceApp:
 
     
 
-    # TIMER FUNCTION
+    #TIMER FUNCTION
     def update_timer(self):
         if not self.timer_running:
             return
@@ -561,7 +564,7 @@ class SpotDifferenceApp:
 
     
     
-
+    #Updates the displayed images after loading or finding differences.
     def update_display(self):
         if self.original_image is None or self.modified_image is None:
          return
@@ -597,7 +600,7 @@ class SpotDifferenceApp:
                  f"Mistakes: {self.game.mistakes}/3 | "
                  f"Found: {self.game.found_count()}"
         )
-
+    #Handles user clicks on the modified image, checks for differences, updates score and game state.
     def handle_click(self, event):
         if self.original_image is None or self.modified_image is None:
             messagebox.showinfo("No Image", "Please load an image first.")
@@ -659,7 +662,7 @@ class SpotDifferenceApp:
                 elapsed_time = int(time.time() - self.start_time)
                 messagebox.showinfo("Completed",f"🎉 You found all 5 differences!\nScore: {final_score}/50\n" 
                                     f"Time: {elapsed_time}seconds")
-                #messagebox.showinfo("Completed", "Well done! You found all 5 differences.")
+                
 
         else:
             try:
@@ -677,6 +680,7 @@ class SpotDifferenceApp:
 
         self.update_status()
 
+#Reveals all differences by marking them on both images and locking the game.
     def reveal_differences(self):
         if self.original_image is None or self.modified_image is None:
             messagebox.showinfo("No Image", "Please load an image first.")
@@ -700,7 +704,7 @@ class SpotDifferenceApp:
         messagebox.showinfo("Revealed", "All differences revealed.")
 
 
-# Main Program
+#Main Program
 
 if __name__ == "__main__":
     root = tk.Tk()
