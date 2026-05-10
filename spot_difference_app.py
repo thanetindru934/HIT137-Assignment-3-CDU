@@ -485,7 +485,7 @@ class SpotDifferenceApp:
                 if size > 22:
                  self.modified_label.after(100, label.destroy)
                  return
-                label.config(fg=("Segoe UI Symbol", size, "bold")  )
+                label.config(font=("Segoe UI Symbol", size, "bold")  )
                 self.root.after(30, lambda: pop(size + 2))
             pop()
         else:
