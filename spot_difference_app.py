@@ -597,8 +597,11 @@ class SpotDifferenceApp:
         found_region = self.game.check_click(original_x, original_y)
 
         if found_region:
-            import winsound
-            winsound.Beep(700, 80)
+            try:
+              import winsound
+              winsound.Beep(700, 80)
+            except ImportError:
+                 pass
             self.show_feedback("✓", "#2ecc71", event.x, event.y, True)
 
             self.score += 10
@@ -623,8 +626,12 @@ class SpotDifferenceApp:
                 #messagebox.showinfo("Completed", "Well done! You found all 5 differences.")
 
         else:
-            import winsound
-            winsound.Beep(400, 120)
+            try:
+                 import winsound
+                 winsound.Beep(400, 120)
+            except ImportError:
+                 pass
+
             self.show_feedback("✕", "#e74c3c", event.x, event.y, False)
             self.score -= 5
             if self.score < 0:
