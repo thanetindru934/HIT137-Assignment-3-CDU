@@ -29,7 +29,7 @@ A desktop game built with Python, Tkinter, and OpenCV where players find hidden 
 
 ```bash
 # 1. Clone or download the project
-git clone <your-repo-url>
+git clone https://github.com/thanetindru934/HIT137-Assignment-3-CDU/
 cd spot-the-difference
 
 # 2. (Recommended) Create a virtual environment
