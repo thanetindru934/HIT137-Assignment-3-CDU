@@ -472,7 +472,7 @@ class SpotDifferenceApp:
             bg="#1e1e2f", fg="#95a5a6")
         footer.pack(side="bottom", fill="x", pady=6)
     
-        # ✅ NEW FUNCTION FOR FEEDBACK ANIMATION
+        #NEW FUNCTION FOR FEEDBACK ANIMATION
     def show_feedback(self, symbol, color, x, y, is_correct=True):
         label = tk.Label(self.modified_label, 
                          text=symbol, 
