@@ -63,7 +63,7 @@ class BrightnessEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y + h, x:x + w]
 
-        factor = random.uniform(0.8, 1.2)
+        factor = random.uniform(0.5, 1.5)
         altered = np.clip(roi.astype(np.float32) * factor, 0, 255).astype(np.uint8)
 
         image[y:y + h, x:x + w] = altered
@@ -110,6 +110,7 @@ class GrayEffect(DifferenceEffect):
 
         gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
         gray = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+        gray = (gray * 0.8).astype(np.uint8)
 
         image[y:y + h, x:x + w] = gray
 
@@ -120,7 +121,7 @@ class PixelateEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image [y:y +h, x:x + w]
          # pixelate
-        small = cv2.resize(roi, (10, 10), interpolation=cv2.INTER_LINEAR)
+        small = cv2.resize(roi, (8, 8), interpolation=cv2.INTER_LINEAR)
         pixelated = cv2.resize(small, (w, h), interpolation=cv2.INTER_NEAREST)
 
         image[y:y+h, x:x+w] = pixelated
@@ -130,7 +131,7 @@ class NoiseEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y+h, x:x+w]
 
-        noise = np.random.randint(0, 50, roi.shape, dtype='uint8')
+        noise = np.random.randint(0, 40, roi.shape, dtype='uint8')
         noisy = cv2.add(roi, noise)
 
         image[y:y+h, x:x+w] = noisy
@@ -141,8 +142,20 @@ class DarkPatchEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y+h, x:x+w]
 
-        dark = (roi * 0.6).astype(np.uint8)
+        dark = (roi * 0.7).astype(np.uint8)
         image[y:y+h, x:x+w] = dark
+
+class CannyEdgeEffect(DifferenceEffect):
+    def apply(self, image, region):
+        x, y, w, h = region
+        roi = image[y:y+h, x:x+w]
+
+        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+        edges = cv2.Canny(gray, 180, 250)
+        edges_colored = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+        blended = cv2.addWeighted(roi, 0.9, edges_colored, 0.1, 0)
+
+        image[y:y+h, x:x+w] = blended
 
 
 
@@ -209,7 +222,8 @@ class ImageProcessor:
             GrayEffect(),
             PixelateEffect(),
             NoiseEffect(),
-            DarkPatchEffect()
+            DarkPatchEffect(),
+            CannyEdgeEffect()
 
         ]
 
@@ -532,6 +546,8 @@ class SpotDifferenceApp:
             self.timer_running = True
             self.update_timer()
 
+            self.info_label.config(text="Find the hidden differences!")
+            
             self.original_image = self.processor.load_image(file_path)
             self.modified_image, regions = self.processor.create_modified_image(self.original_image)
 
