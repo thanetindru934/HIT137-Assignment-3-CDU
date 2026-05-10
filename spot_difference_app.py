@@ -593,7 +593,8 @@ class SpotDifferenceApp:
                     messagebox.showinfo("Game Completed", 
                                     f" You already found all 5 differences! \n\n"
                                     f"Final score: {self.score}")
-            elif self.game.mistakes >= self.game.MAX_MISTAKES:                      
+            elif self.game.mistakes >= self.game.MAX_MISTAKES:   
+               self.timer_running = False                   
                found=self.game.found_count()
                messagebox.showinfo("Round Locked", 
                                 f"You have reached the maximum number of mistakes. \n\n"
@@ -638,7 +639,10 @@ class SpotDifferenceApp:
                 self.timer_label.config(text=f"Time: {int(time.time() - self.start_time)}s | Score: {self.score}")
 
                 final_score = self.score
-                messagebox.showinfo("Completed",f"🎉 You found all 5 differences!\nScore: {final_score}/50")
+                import time
+                elapsed_time = int(time.time() - self.start_time)
+                messagebox.showinfo("Completed",f"🎉 You found all 5 differences!\nScore: {final_score}/50\n" 
+                                    f"Time: {elapsed_time}seconds")
                 #messagebox.showinfo("Completed", "Well done! You found all 5 differences.")
 
         else:
@@ -661,6 +665,10 @@ class SpotDifferenceApp:
         if self.original_image is None or self.modified_image is None:
             messagebox.showinfo("No Image", "Please load an image first.")
             return
+        if self.game.remaining_count() == 0:
+                messagebox.showinfo("Game Completed", 
+                                    "You have already found all 5 differences!")
+                return
 
         self.timer_running = False
 
