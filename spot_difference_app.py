@@ -188,6 +188,8 @@ class DifferenceRegion:
             y1 + h1 + padding < y2 or
             y2 + h2 + padding < y1
         )
+    def __str__(self):
+        return f"DifferenceRegion(found={self.__found})"
 
 # Image Processing Class
 
