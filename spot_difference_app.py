@@ -588,7 +588,23 @@ class SpotDifferenceApp:
             return
 
         if self.game.locked:
-            messagebox.showinfo("Round Locked", "No more guesses allowed. Please load a new image to try again.")
+
+            if self.game.remaining_count()==0:
+                    messagebox.showinfo("Game Completed", 
+                                    f" You already found all 5 differences! \n\n"
+                                    f"Final score: {self.score}")
+            elif self.game.mistakes >= self.game.MAX_MISTAKES:                      
+               found=self.game.found_count()
+               messagebox.showinfo("Round Locked", 
+                                f"You have reached the maximum number of mistakes. \n\n"
+                                f"You have found: {found}/5\n" 
+                                f"Final score: {self.score}\n\n"
+                                f"Click 'Load Image' to restart the game.")
+            else:
+                messagebox.showinfo(
+                    "Round Locked",
+                    "Please load a new image to try again."
+                )
             return
 
         original_x = int(event.x / self.display_scale)
@@ -649,12 +665,11 @@ class SpotDifferenceApp:
         self.timer_running = False
 
         for region in self.game.regions:
-            if not region.is_found():
-                colour = (255, 0, 0)
+            if not region.is_found():             
                 self.processor.draw_circle(self.original_image, region.get_region(), (255, 0, 0))
                 self.processor.draw_circle(self.modified_image, region.get_region(), (255, 0, 0))
 
-        self.game.reveal_all()
+        self.game.locked = True
         self.update_display()
         self.update_status()
 
