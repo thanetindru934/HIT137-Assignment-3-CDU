@@ -312,11 +312,13 @@ class DifferenceGame:
         self.regions = []
         self.mistakes = 0
         self.locked = False
+        self.revealed = False
 
     def start_new_round(self, regions):
         self.regions = regions
         self.mistakes = 0
         self.locked = False
+        self.revealed = False
 
     def remaining_count(self):
         return sum(1 for region in self.regions if not region.is_found())
@@ -346,6 +348,7 @@ class DifferenceGame:
                 region.mark_found()
 
         self.locked = True
+        self.revealed = True
 
 
 
@@ -611,10 +614,17 @@ class SpotDifferenceApp:
 
         if self.game.locked:
 
-            if self.game.remaining_count()==0:
+            if self.game.revealed:
+                messagebox.showinfo("Round Revealed", 
+                                    f"All differences have been revealed! \n\n"
+                                    f"Final score: {self.score}\n\n"
+                                    f"Click 'Load Image' to start a new game.")  
+
+            elif self.game.remaining_count()==0:
                     messagebox.showinfo("Game Completed", 
                                     f" You already found all 5 differences! \n\n"
-                                    f"Final score: {self.score}")
+                                    f"Final score: {self.score}\n\n"
+                                    f"Click 'Load Image' to start a new game.")
             elif self.game.mistakes >= self.game.MAX_MISTAKES:   
                self.timer_running = False                   
                found=self.game.found_count()
@@ -694,15 +704,20 @@ class SpotDifferenceApp:
                 return
 
         self.timer_running = False
+        revealed_count = self.game.remaining_count()
 
         for region in self.game.regions:
             if not region.is_found():             
                 self.processor.draw_circle(self.original_image, region.get_region(), (255, 0, 0))
                 self.processor.draw_circle(self.modified_image, region.get_region(), (255, 0, 0))
-        
+        self.game.reveal_all()
         self.game.locked = True
         self.update_display()
         self.update_status()
+
+        self.status_label.config(
+            text=f"Remaining: 0  | Mistakes: {self.game.mistakes}/3 | Revealed: {revealed_count}"
+        )
 
         messagebox.showinfo("Revealed", "All differences revealed.")
 
