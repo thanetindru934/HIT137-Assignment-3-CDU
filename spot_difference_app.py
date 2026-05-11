@@ -79,12 +79,12 @@ class ShapeEffect(DifferenceEffect):
         radius = max(12, min(w, h) // 2)
 
         colour = (
-            random.randint(80, 180),
-            random.randint(80, 180),
-            random.randint(80, 180)
+            random.randint(90, 140),
+            random.randint(90, 140),
+            random.randint(90, 140)
         )
 
-        cv2.circle(image, center, radius, colour, 2)
+        cv2.circle(image, center, radius, colour, 1)
 
 #NEW EFFECT 1 (Border Highlight)
 class BorderEffect(DifferenceEffect):
