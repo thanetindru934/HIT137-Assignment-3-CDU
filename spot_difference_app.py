@@ -1,7 +1,7 @@
 """
 HIT137 Group Assignment 3
 Spot the Difference Desktop Application
-This application demonstrates:
+It demonstrates:
 -Object-Oriented Programming
 -Tkinter GUI development
 -OpenCV image processing
@@ -207,7 +207,7 @@ class DifferenceRegion:
 
 #Image Processing Class
 class ImageProcessor:
-    #Handles image loading, cloning, difference generation, and marking.
+    #Handles image loading, difference generation, and marking.
 
     DIFFERENCE_COUNT = 5
 
@@ -275,7 +275,8 @@ class ImageProcessor:
             raise RuntimeError("Could not generate five non-overlapping regions.")
 
         return regions
-
+    
+   #Draws a circle around found differences on the images.
     def draw_circle(self, image, region, colour):
         x, y, w, h = region
         center = (x + w // 2, y + h // 2)
@@ -303,7 +304,7 @@ class ImageProcessor:
 #Game Logic Class
 
 class DifferenceGame:
-    #Controls game state, scoring, mistakes, and reveal logic.
+    #Controls game state, mistakes, and reveal logic.
 
     MAX_MISTAKES = 3
 
@@ -338,7 +339,7 @@ class DifferenceGame:
             self.locked = True
 
         return None
-
+#Reveals all differences by marking them on both images and locks the game.
     def reveal_all(self):
         for region in self.regions:
             if not region.is_found():
@@ -382,7 +383,7 @@ class SpotDifferenceApp:
     def __build_gui(self):
 
 
-       #Header with title and custom font, background color, and padding for a polished look.
+       #Header with title and custom font, background color, and padding.
         header = tk.Frame(self.root, bg="#12121c", height=30)
         header.pack(fill="x")
         tk.Label(header, text="🎮 SPOT THE DIFFERENCE",
@@ -406,7 +407,7 @@ class SpotDifferenceApp:
         reveal_btn.grid(row=0, column=1, padx=10)
 
 
-        #Hover effects for buttons
+        #Hover effects for button
         def add_hover(w, normal, hover):
             w.bind("<Enter>", lambda e: w.config(bg=hover, fg="black"))
             w.bind("<Leave>", lambda e: w.config(bg=normal, fg="white"))
@@ -530,6 +531,7 @@ class SpotDifferenceApp:
         if self.timer_running:
            self.root.after(1000, self.update_timer)
 
+#Loads an image, generates differences, resets game state, and updates the display and status.
     def load_image(self):
         file_path = filedialog.askopenfilename(
             title="Select an Image",
@@ -696,7 +698,7 @@ class SpotDifferenceApp:
             if not region.is_found():             
                 self.processor.draw_circle(self.original_image, region.get_region(), (255, 0, 0))
                 self.processor.draw_circle(self.modified_image, region.get_region(), (255, 0, 0))
-
+        
         self.game.locked = True
         self.update_display()
         self.update_status()
@@ -704,7 +706,7 @@ class SpotDifferenceApp:
         messagebox.showinfo("Revealed", "All differences revealed.")
 
 
-#Main Program
+#Application entry point - initializes the Tkinter root and starts the main loop.
 
 if __name__ == "__main__":
     root = tk.Tk()
