@@ -470,7 +470,8 @@ class SpotDifferenceApp:
         #WELCOME PLACEHOLDER
         self.placeholder_label = tk.Label(
         self.root,
-    text="🎮 WELCOME PLAYER\n\n"
+    text="🎮 WELCOME PLAYER!\nGet ready to spot the sneaky differences 👀✨\n\n"
+
          "🔍 Find 5 hidden differences\n"
          "❌ Only 3 mistakes allowed\n\n"
          "👉 Click 'Load Image' to begin",
