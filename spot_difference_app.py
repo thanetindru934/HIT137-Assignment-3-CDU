@@ -385,7 +385,6 @@ class SpotDifferenceApp:
 
     def __build_gui(self):
 
-
        #Header with title and custom font, background color, and padding.
         header = tk.Frame(self.root, bg="#12121c", height=30)
         header.pack(fill="x")
@@ -477,7 +476,9 @@ class SpotDifferenceApp:
 
          "🔍 Find 5 hidden differences\n"
          "❌ Only 3 mistakes allowed\n\n"
-         "👉 Click 'Load Image' to begin",
+         "👉 Click 'Load Image' to begin\n"
+         "🖱 After loading the images, click on the modified one to make your guess."
+,
     font=("Segoe UI", 16, "bold"),
     bg="#12121c",
     fg="#00ffe0",
