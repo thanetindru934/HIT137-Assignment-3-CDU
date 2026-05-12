@@ -38,12 +38,13 @@ class ColourShiftEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y + h, x:x + w]
 
-        shift = np.array([random.randint(-30, 30),
-                          random.randint(-30, 30),
-                          random.randint(-30, 30)])
+        shift = np.array([random.randint(-28, 28),
+                          random.randint(-28, 28),
+                          random.randint(-28, 28)])
 
         altered = np.clip(roi.astype(np.int16) + shift, 0, 255).astype(np.uint8)
-        image[y:y + h, x:x + w] = altered
+        blended = cv2.addWeighted(roi, 0.45, altered, 0.55, 0)
+        image[y:y + h, x:x + w] = blended
 
 
 class BlurEffect(DifferenceEffect):
@@ -90,7 +91,7 @@ class ShapeEffect(DifferenceEffect):
 class BorderEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
-        cv2.rectangle(image, (x, y), (x+w, y+h), (80, 80, 80), 1)
+        cv2.rectangle(image, (x, y), (x+w, y+h), (40, 40, 40), 1)
 
 
 
@@ -110,9 +111,10 @@ class GrayEffect(DifferenceEffect):
 
         gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
         gray = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
-        gray = (gray * 0.8).astype(np.uint8)
+        gray = (gray * 0.9).astype(np.uint8)
+        blended = cv2.addWeighted(roi, 0.5, gray, 0.5, 0)
 
-        image[y:y + h, x:x + w] = gray
+        image[y:y + h, x:x + w] = blended
 
 
 #NEW EFFECT 4 (Pixelation)
@@ -240,11 +242,9 @@ class ImageProcessor:
         modified_image = original_image.copy()
         regions = self.__generate_non_overlapping_regions(original_image)
 
-        for region_obj in regions:
-            effect = random.choice(self.effects)
-            #randomly selects an effect for each hidden region.
+        selected_effects = random.sample(self.effects, len(regions))
+        for region_obj, effect in zip(regions, selected_effects):
             effect.apply(modified_image, region_obj.get_region())
-
         return modified_image, regions
     
 #Generates random non-overlapping regions for differences.
