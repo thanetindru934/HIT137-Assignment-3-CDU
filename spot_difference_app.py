@@ -38,13 +38,13 @@ class ColourShiftEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y + h, x:x + w]
 
-        shift = np.array([random.randint(-28, 28),
-                          random.randint(-28, 28),
-                          random.randint(-28, 28)])
+        shift = np.array([random.randint(-100,100),
+                          random.randint(-100, 100),
+                          random.randint(-100, 100)])
 
         altered = np.clip(roi.astype(np.int16) + shift, 0, 255).astype(np.uint8)
-        blended = cv2.addWeighted(roi, 0.45, altered, 0.55, 0)
-        image[y:y + h, x:x + w] = blended
+        
+        image[y:y + h, x:x + w] = altered
 
 
 class BlurEffect(DifferenceEffect):
@@ -64,8 +64,9 @@ class BrightnessEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y + h, x:x + w]
 
-        factor = random.uniform(0.5, 1.5)
+        factor = random.uniform(0.15, 2.5)
         altered = np.clip(roi.astype(np.float32) * factor, 0, 255).astype(np.uint8)
+       
 
         image[y:y + h, x:x + w] = altered
 
@@ -84,14 +85,20 @@ class ShapeEffect(DifferenceEffect):
             random.randint(90, 140),
             random.randint(90, 140)
         )
+        overlay = image.copy()
+        cv2.circle(overlay, center, radius, colour, 2)
+        cv2.addWeighted(overlay, 0.25, image, 0.75, 0, image)
 
-        cv2.circle(image, center, radius, colour, 1)
+
+       
 
 #NEW EFFECT 1 (Border Highlight)
 class BorderEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
-        cv2.rectangle(image, (x, y), (x+w, y+h), (40, 40, 40), 1)
+        overlay = image.copy()
+        cv2.rectangle(overlay, (x, y), (x+w, y+h), (60, 60, 60), 2)
+        cv2.addWeighted(overlay, 0.3, image, 0.7, 0, image)
 
 
 
@@ -111,8 +118,8 @@ class GrayEffect(DifferenceEffect):
 
         gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
         gray = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
-        gray = (gray * 0.9).astype(np.uint8)
-        blended = cv2.addWeighted(roi, 0.5, gray, 0.5, 0)
+        gray = (gray * 0.70).astype(np.uint8)
+        blended = cv2.addWeighted(roi, 0.4, gray, 0.6, 0)
 
         image[y:y + h, x:x + w] = blended
 
@@ -123,7 +130,7 @@ class PixelateEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image [y:y +h, x:x + w]
          # pixelate
-        small = cv2.resize(roi, (8, 8), interpolation=cv2.INTER_LINEAR)
+        small = cv2.resize(roi, (7, 7), interpolation=cv2.INTER_LINEAR)
         pixelated = cv2.resize(small, (w, h), interpolation=cv2.INTER_NEAREST)
 
         image[y:y+h, x:x+w] = pixelated
@@ -145,7 +152,7 @@ class DarkPatchEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y+h, x:x+w]
 
-        dark = (roi * 0.7).astype(np.uint8)
+        dark = (roi * 0.60).astype(np.uint8)
         image[y:y+h, x:x+w] = dark
 
 #NEW EFFECT 7 (Canny Edge effect)      
