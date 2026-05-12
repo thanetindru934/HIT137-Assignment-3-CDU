@@ -243,6 +243,7 @@ class ImageProcessor:
         regions = self.__generate_non_overlapping_regions(original_image)
 
         selected_effects = random.sample(self.effects, len(regions))
+        #Applies a random effect to each generated difference region.
         for region_obj, effect in zip(regions, selected_effects):
             effect.apply(modified_image, region_obj.get_region())
         return modified_image, regions
