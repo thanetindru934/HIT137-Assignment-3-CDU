@@ -1,7 +1,7 @@
 # 🎮 Spot the Difference
 ### HIT137 Group Assignment 3 — CDU
 
-> A desktop puzzle game built with **Python**, **Tkinter**, and **OpenCV**. Load any photo, hunt down 5 hidden differences, and race against the clock — no two rounds are ever the same.
+> A desktop based game built with **Python**, **Tkinter**, and **OpenCV**. Load any photo, hunt down 5 hidden differences, and race against the clock — no two rounds are ever the same.
 
 ---
 
@@ -45,7 +45,7 @@
 
 ## How to Contribute
 
-All contributions are welcome! This section covers everything you need to get started.
+All contributions are welcome! This section covers everything we need to get started.
 
 ### Quick-Start Contribution Flow
 
@@ -92,7 +92,7 @@ venv\Scripts\activate             # Windows
 pip install -r requirements.txt
 ```
 
-### 4. Make Your Changes
+### 4. Make any Changes
 
 The whole game lives in **`spot_difference_app.py`** — one file, six classes. See [Architecture Overview](#architecture-overview) to understand where things go.
 
@@ -133,7 +133,7 @@ Checklist before submitting:
 - [ ] Loading an image works
 - [ ] Clicking correct/incorrect regions updates score and HUD
 - [ ] Reveal Differences shows all remaining regions
-- [ ] Your new code has no syntax errors or obvious regressions
+- [ ] The new code has no syntax errors or obvious regressions
 - [ ] Code is commented where non-obvious
 
 ### 6. Commit & Push
@@ -157,7 +157,7 @@ Types: feat | fix | refactor | docs | style | test | chore
 Go to the original repo on GitHub → **Compare & pull request**.
 
 In PR description, include:
-- What you changed and why
+- What has changed and why
 - Steps to test it
 - Screenshots or a GIF if it's visual
 
