@@ -574,13 +574,13 @@ class SpotDifferenceApp:
 
         self.original_display, self.display_scale = self.processor.resize_for_display(
         self.original_image,
-        max_width=680,
+        max_width=600,
         max_height=450
     )
     
         self.modified_display, _ = self.processor.resize_for_display(
         self.modified_image,
-        max_width=680,
+        max_width=600,
         max_height=450
     )
 
