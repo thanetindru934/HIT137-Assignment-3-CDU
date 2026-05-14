@@ -38,13 +38,13 @@ class ColourShiftEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y + h, x:x + w]
 
-        shift = np.array([random.randint(-100,100),
-                          random.randint(-100, 100),
-                          random.randint(-100, 100)])
+        shift = np.array([random.randint(-45,45),
+                          random.randint(-45, 45),
+                          random.randint(-45, 45)])
 
         altered = np.clip(roi.astype(np.int16) + shift, 0, 255).astype(np.uint8)
-        
-        image[y:y + h, x:x + w] = altered
+        blended = cv2.addWeighted(roi, 0.6, altered, 0.4, 0)
+        image[y:y + h, x:x + w] = blended
 
 
 class BlurEffect(DifferenceEffect):
@@ -107,7 +107,9 @@ class InvertEffect(DifferenceEffect):
     def apply(self, image, region):
         x, y, w, h = region
         roi = image[y:y + h, x:x + w]
-        image[y:y + h, x:x + w] = 255 - roi
+        inverted = 255 - roi
+        blended = cv2.addWeighted(roi, 0.7, inverted, 0.3, 0)
+        image[y:y + h, x:x + w] = blended
 
 
 #NEW EFFECT 3 (Grayscale Patch)
@@ -118,8 +120,8 @@ class GrayEffect(DifferenceEffect):
 
         gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
         gray = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
-        gray = (gray * 0.70).astype(np.uint8)
-        blended = cv2.addWeighted(roi, 0.4, gray, 0.6, 0)
+        gray = (gray * 0.85).astype(np.uint8)
+        blended = cv2.addWeighted(roi, 0.5, gray, 0.5, 0)
 
         image[y:y + h, x:x + w] = blended
 
@@ -152,7 +154,7 @@ class DarkPatchEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y+h, x:x+w]
 
-        dark = (roi * 0.60).astype(np.uint8)
+        dark = (roi * 0.75).astype(np.uint8)
         image[y:y+h, x:x+w] = dark
 
 
