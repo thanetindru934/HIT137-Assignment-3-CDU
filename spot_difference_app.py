@@ -64,11 +64,12 @@ class BrightnessEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y + h, x:x + w]
 
-        factor = random.uniform(0.15, 2.5)
+        factor = random.uniform(0.35, 2.0)
         altered = np.clip(roi.astype(np.float32) * factor, 0, 255).astype(np.uint8)
+        blended = cv2.addWeighted(roi, 0.2, altered, 0.8, 0)
        
 
-        image[y:y + h, x:x + w] = altered
+        image[y:y + h, x:x + w] = blended
 
 
 class ShapeEffect(DifferenceEffect):

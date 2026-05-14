@@ -119,9 +119,9 @@ self.effects = [
 
 No other changes needed — the rest of the game picks it up automatically.
 
-### 5. Test Your Changes
+### 5. Test Changes
 
-Run the app manually and verify your change works end-to-end:
+Run the app manually and verify change works end-to-end:
 
 ```bash
 python spot_difference_app.py
@@ -156,7 +156,7 @@ Types: feat | fix | refactor | docs | style | test | chore
 
 Go to the original repo on GitHub → **Compare & pull request**.
 
-In your PR description, include:
+In PR description, include:
 - What you changed and why
 - Steps to test it
 - Screenshots or a GIF if it's visual
