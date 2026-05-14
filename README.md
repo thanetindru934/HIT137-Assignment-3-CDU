@@ -319,7 +319,7 @@ python spot_difference_app.py
 - Audio feedback (`winsound`) works on **Windows only**. On macOS/Linux the game is silent.
 - Very small images (< ~150 × 150 px) may fail to generate 5 non-overlapping regions.
 - No persistent high-score storage between sessions.
-- The app is not resizable in a fully responsive way — images are capped at 600 × 450 px.
+
 
 ---
 
@@ -343,4 +343,4 @@ This project was created for academic purposes as part of **HIT137 — Software 
 
 ## Authors
 
-HIT137 Group — Charles Darwin University, 2026
+HIT137 Group DAN/EXT 68 — Charles Darwin University, 2026
