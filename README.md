@@ -24,13 +24,7 @@
 
 ## Demo & Screenshots
 
-> _Add a GIF or screenshot of the running app here. (e.g. `docs/demo.gif`)_
-
-```
-📂 Load Image  →  Study both panels  →  Click differences on the right  →  Win!
-```
-
----
+-- Inside  sample_images folder
 
 ## Features
 
@@ -38,7 +32,7 @@
 |---|---|
 | 🖼 Universal image support | JPG, PNG, BMP, TIFF, WEBP |
 | 🎲 Randomised puzzles | 5 non-overlapping regions placed fresh each round |
-| 🎨 11 visual effects | Colour shift, blur, brightness, shape, border, invert, grayscale, pixelate, noise, dark patch, Canny edge |
+| 🎨 10 visual effects | Colour shift, blur, brightness, shape, border, invert, grayscale, pixelate, noise, dark patch |
 | 🖱 Click-to-guess | Tolerance-based hit detection on the modified image |
 | 📊 Live HUD | Score, elapsed timer, mistake counter — all updated in real time |
 | ❌ Mistake limit | 3 wrong clicks locks the round |
