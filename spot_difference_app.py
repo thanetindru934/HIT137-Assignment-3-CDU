@@ -155,19 +155,6 @@ class DarkPatchEffect(DifferenceEffect):
         dark = (roi * 0.60).astype(np.uint8)
         image[y:y+h, x:x+w] = dark
 
-#NEW EFFECT 7 (Canny Edge effect)      
-class CannyEdgeEffect(DifferenceEffect):
-    def apply(self, image, region):
-        x, y, w, h = region
-        roi = image[y:y+h, x:x+w]
-
-        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-        edges = cv2.Canny(gray, 180, 250)
-        edges_colored = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
-        blended = cv2.addWeighted(roi, 0.9, edges_colored, 0.1, 0)
-
-        image[y:y+h, x:x+w] = blended
-
 
 
 #Data Class for Difference Regions
@@ -232,9 +219,7 @@ class ImageProcessor:
             GrayEffect(),
             PixelateEffect(),
             NoiseEffect(),
-            DarkPatchEffect(),
-            CannyEdgeEffect()
-
+            DarkPatchEffect(),          
         ]
 
     def load_image(self, file_path):
