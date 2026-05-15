@@ -64,9 +64,12 @@ class BrightnessEffect(DifferenceEffect):
         x, y, w, h = region
         roi = image[y:y + h, x:x + w]
 
-        factor = random.uniform(0.35, 2.0)
+        factor = random.choice([
+            random.uniform(0.4, 0.7),
+            random.uniform(1.3, 1.8)
+        ])
         altered = np.clip(roi.astype(np.float32) * factor, 0, 255).astype(np.uint8)
-        blended = cv2.addWeighted(roi, 0.2, altered, 0.8, 0)
+        blended = cv2.addWeighted(roi, 0.4, altered, 0.6, 0)
        
 
         image[y:y + h, x:x + w] = blended
@@ -122,7 +125,7 @@ class GrayEffect(DifferenceEffect):
         gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
         gray = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
         gray = (gray * 0.85).astype(np.uint8)
-        blended = cv2.addWeighted(roi, 0.5, gray, 0.5, 0)
+        blended = cv2.addWeighted(roi, 0.6, gray, 0.4, 0)
 
         image[y:y + h, x:x + w] = blended
 
@@ -421,7 +424,7 @@ class SpotDifferenceApp:
         #HUD Frame for status 
         hud = tk.Frame(self.root, bg="#1e1e2f")
         hud.pack(pady=5)
-        self.status_label = tk.Label(hud, text="Remaining: 5 | Mistakes: 0/3 | Found: 0",
+        self.status_label = tk.Label(hud, text="Remaining: 0 | Mistakes: 0/3 | Found: 0",
                                      font=("Segoe UI", 12, "bold"), 
                                      bg="#2f3640", fg="#00ffcC", padx=20 , pady=6)
         self.status_label.grid(row=0, column=0, padx=10)
