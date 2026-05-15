@@ -230,7 +230,7 @@ SpotDifferenceApp  (GUI layer — Tkinter)
     │               ├── PixelateEffect
     │               ├── NoiseEffect
     │               ├── DarkPatchEffect
-    │               └── CannyEdgeEffect
+    │               
     │
     ├── DifferenceGame         (game state — score, mistakes, click validation)
     │
